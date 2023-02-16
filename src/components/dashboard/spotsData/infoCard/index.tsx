@@ -7,18 +7,10 @@ interface Props {
   style?: React.CSSProperties;
   title: string;
   quantity: number;
-  total: number;
   loading: boolean;
 }
 
-const InfoCard: React.FC<Props> = ({
-  title,
-  quantity,
-  total,
-  loading,
-  className,
-  style,
-}) => {
+const InfoCard: React.FC<Props> = ({ title, quantity, loading, className, style }) => {
   return (
     <Card className={className} style={style}>
       <CardHeader title={title} />
@@ -26,7 +18,7 @@ const InfoCard: React.FC<Props> = ({
         {loading && <Loading />}
         {!loading && (
           <Typography variant="body2" color="text.secondary">
-            {quantity}/{total}
+            {quantity}
           </Typography>
         )}
       </CardContent>
