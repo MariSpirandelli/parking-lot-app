@@ -1,4 +1,6 @@
 import { useParkingLot } from '@/context/parkingLot';
+import useDashboardSummary from '@/hooks/api/useDashbord';
+import useParkingInfo from '@/hooks/api/useParking';
 import { Divider, Typography } from '@mui/material';
 import Body from '../layout/body';
 import Park from './park';
@@ -7,6 +9,13 @@ import SpotData from './spotsData';
 
 const Dashboard: React.FC = () => {
   const parkingLot = useParkingLot();
+  const [parkings, { loading: parkingLoading, mutate: parkingMutate }] = useParkingInfo(parkingLot.parkingLotId);
+  const [slotInfo, { loading: slotInfoLoading, mutate: slotInfoMutate }] = useDashboardSummary(parkingLot.parkingLotId);
+
+  const onParkingChange = ()=>{
+    parkingMutate();
+    slotInfoMutate();
+  }
 
   return (
     <Body>
@@ -14,9 +23,9 @@ const Dashboard: React.FC = () => {
         Parking Lot
       </Typography>
       <Divider />
-      <SpotData parkingLotId={parkingLot.parkingLotId}/>
-      <Park parkingLotId={parkingLot.parkingLotId} />
-      <ParkHistory />
+      <SpotData loading={slotInfoLoading} slotInfo={(slotInfo)}/>
+      <Park parkingLotId={parkingLot.parkingLotId} onChange={onParkingChange}/>
+      <ParkHistory parkings={parkings || []} loading={parkingLoading} parkingLotId={parkingLot.parkingLotId} onChange={onParkingChange}/>
     </Body>
   );
 };

@@ -11,6 +11,16 @@ const park = (parkingLotId: number, vehicleId: number): Promise<IVehicle> => {
   });
 };
 
+const remove = (parkingLotId: number, vehicleId: number): Promise<IParking[]> => {
+  return api.put(`/api/parkings/${parkingLotId}/remove/${vehicleId}`);
+};
+
+const load = (parkingLotId: number, filters: IParkingFilter): Promise<IParking[]> => {
+  return api.get(`/api/parkings/${parkingLotId}`, { params: filters });
+};
+
 export default {
+  load,
   park,
+  remove,
 };

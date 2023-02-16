@@ -12,9 +12,10 @@ interface Props {
   className?: string;
   style?: React.CSSProperties;
   parkingLotId: number;
+  onChange: () => void;
 }
 
-const Park: React.FC<Props> = ({ parkingLotId }) => {
+const Park: React.FC<Props> = ({ parkingLotId, onChange }) => {
   const [plate, setPlate] = useState<string>();
   const [vehicleTypeId, setVehicleTypeId] = useState<number>(1);
   const [errorMessage, setErrorMessage] = useState<string>();
@@ -35,8 +36,12 @@ const Park: React.FC<Props> = ({ parkingLotId }) => {
         return setErrorMessage((newVehicle as any).error.message);
       }
 
-      await apiParking.park(parkingLotId, newVehicle.id);
+      const result = await apiParking.park(parkingLotId, newVehicle.id);
       cleanInputData();
+      if ((result as any)?.error) {
+        setErrorMessage((result as any)?.error.message);
+        return;
+      }
     } catch (err) {
       setErrorMessage(`Error while proceeding to checkout. Try again later`);
     }
@@ -45,8 +50,8 @@ const Park: React.FC<Props> = ({ parkingLotId }) => {
   const cleanInputData = () => {
     setIsSubimitting(false);
     setErrorMessage('');
-    setVehicleTypeId(1);
     setPlate('');
+    onChange();
   };
 
   return (
@@ -73,6 +78,7 @@ const Park: React.FC<Props> = ({ parkingLotId }) => {
                     label="Vehicle Plate"
                     helperText="Please type vehicle plate"
                     value={plate}
+                    inputProps={{ maxLength: 7 }}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       setPlate(event.target.value);
                     }}
@@ -86,7 +92,6 @@ const Park: React.FC<Props> = ({ parkingLotId }) => {
                       select
                       required
                       label="Vehicle type"
-                      defaultValue="1"
                       helperText="Please select vehicle type"
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setVehicleTypeId(parseInt(event.target.value, 10));

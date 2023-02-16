@@ -1,16 +1,14 @@
-import useDashboardSummary from '@/hooks/api/useDashbord';
 import InfoCard from './infoCard';
 import { StyledDiv } from './_styles';
 
 interface Props {
   className?: string;
   style?: React.CSSProperties;
-  parkingLotId: number;
+  slotInfo: IDashboardSummary | undefined;
+  loading: boolean;
 }
 
-const SpotData: React.FC<Props> = ({ parkingLotId }) => {
-  const [slotInfo, { loading }] = useDashboardSummary(parkingLotId);
-
+const SpotData: React.FC<Props> = ({ loading, slotInfo }) => {
   return (
     <StyledDiv>
       <InfoCard loading={loading} title="Spots Remaining" quantity={slotInfo?.remaining || 0} />
