@@ -13,6 +13,10 @@ export const OverlayDiv = styled.div`
   align-items: center;
   justify-content: center;
 
+  &.loading-spinner-overlay{
+    background: transparent ;
+  }
+
   > div {
     display: flex;
     align-items: center;
