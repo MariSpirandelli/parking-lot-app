@@ -5,12 +5,49 @@ import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { StyledDiv } from './_styles';
+import apiVehicle from '../../../helpers/api/vehicle';
+import apiParking from '../../../helpers/api/park';
 
-const Park: React.FC = () => {
+interface Props {
+  className?: string;
+  style?: React.CSSProperties;
+  parkingLotId: number;
+}
+
+const Park: React.FC<Props> = ({ parkingLotId }) => {
   const [plate, setPlate] = useState<string>();
   const [vehicleTypeId, setVehicleTypeId] = useState<number>(1);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [isSubimitting, setIsSubimitting] = useState<boolean>(false);
 
   const [vehicleTypes, { loading }] = useVehicleType();
+
+  const submit = async () => {
+    if (!plate?.trim().length || !vehicleTypeId) {
+      setErrorMessage('Vehicle Plate and type are mandatory fields!');
+      return;
+    }
+    setIsSubimitting(true);
+    try {
+      const newVehicle: IVehicle = await apiVehicle.save(plate.toUpperCase(), vehicleTypeId);
+
+      if ((newVehicle as any).error?.message) {
+        return setErrorMessage((newVehicle as any).error.message);
+      }
+
+      await apiParking.park(parkingLotId, newVehicle.id);
+      cleanInputData();
+    } catch (err) {
+      setErrorMessage(`Error while proceeding to checkout. Try again later`);
+    }
+  };
+
+  const cleanInputData = () => {
+    setIsSubimitting(false);
+    setErrorMessage('');
+    setVehicleTypeId(1);
+    setPlate('');
+  };
 
   return (
     <StyledDiv>
@@ -18,6 +55,12 @@ const Park: React.FC = () => {
         <Typography component="h4" variant="h4">
           Park vehicle
         </Typography>
+
+        <div className="error-message">
+          <Typography component="h6" variant="h6" color="red">
+            {errorMessage}
+          </Typography>
+        </div>
         <div className="paper-wrapper">
           {loading && <Loading />}
           {!loading && (
@@ -45,9 +88,7 @@ const Park: React.FC = () => {
                       label="Vehicle type"
                       defaultValue="1"
                       helperText="Please select vehicle type"
-                      onChange={(
-                        event: React.ChangeEvent<HTMLInputElement>
-                      ) => {
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setVehicleTypeId(parseInt(event.target.value, 10));
                       }}
                     >
@@ -61,9 +102,11 @@ const Park: React.FC = () => {
                 )}
               </div>
               <div className="park-button">
-                <Button color="primary" variant="contained">
-                  {' '}
-                  Park
+                <Button color="primary" variant="contained" onClick={submit} disabled={isSubimitting}>
+                  <>
+                    {!isSubimitting && <>Park</>}
+                    {isSubimitting && <Loading />}
+                  </>
                 </Button>
               </div>
             </>

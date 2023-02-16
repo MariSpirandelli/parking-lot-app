@@ -6,6 +6,12 @@ export const StyledDiv = styled.div`
   flex-wrap: wrap;
   padding: 2rem;
 
+  .error-message{
+    height: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+
   .MuiPaper-root {
     width: 50vw;
     display: flex;

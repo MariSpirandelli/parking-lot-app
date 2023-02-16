@@ -15,7 +15,7 @@ const Dashboard: React.FC = () => {
       </Typography>
       <Divider />
       <SpotData />
-      <Park />
+      <Park parkingLotId={parkingLot.parkingLotId} />
       <ParkHistory />
     </Body>
   );
