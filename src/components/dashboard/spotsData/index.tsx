@@ -1,4 +1,4 @@
-import useDashBoardSummary from '@/hooks/api/useDashbord';
+import useDashboardSummary from '@/hooks/api/useDashbord';
 import InfoCard from './infoCard';
 import { StyledDiv } from './_styles';
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const SpotData: React.FC<Props> = ({ parkingLotId }) => {
-  const [slotInfo, { loading }] = useDashBoardSummary(parkingLotId);
+  const [slotInfo, { loading }] = useDashboardSummary(parkingLotId);
 
   return (
     <StyledDiv>

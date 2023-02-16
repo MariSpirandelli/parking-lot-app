@@ -1,6 +1,6 @@
 import useFetch from './useFetch';
 
-type FetchDashBoardSummaryHookReturn = [
+type FetchDashboardSummaryHookReturn = [
   IDashboardSummary | undefined,
   {
     loading: boolean;
@@ -8,10 +8,10 @@ type FetchDashBoardSummaryHookReturn = [
   },
 ];
 
-const useDashBoardSummary = (parkingLotId: number): FetchDashBoardSummaryHookReturn => {
+const useDashboardSummary = (parkingLotId: number): FetchDashboardSummaryHookReturn => {
   const { loading, data, error } = useFetch<IDashboardSummary>(`/api/dashboard/${parkingLotId}/slots/status`);
 
   return [data, { loading, error }];
 };
 
-export default useDashBoardSummary;
+export default useDashboardSummary;
