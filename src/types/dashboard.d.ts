@@ -1,9 +1,7 @@
-declare interface Info {
-  available: number;
-  total: number;
+declare interface IDashSummaryDetails {
+  parked: number;
 }
 
-declare interface Dashboard {
-  sumary: Info;
-  [key in VehicleTypeEnum]: Info;
-}
+declare type IDashboardSummary = { remaining: number } & {
+  [key in VehicleTypeEnum]: ISlotSummaryDetails;
+};
