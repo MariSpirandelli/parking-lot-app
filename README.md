@@ -41,3 +41,6 @@ Now you'll be able to see your parking lot dashboard, park new vehicles and remo
 1. Motorcycle can park in any available slot
 1. Car can park in both car or van slots
 1. Van can park in both car or van slots but if it's a car slot, it'll occuppy 3 consecutive slots
+
+<img width="1207" alt="image" src="https://user-images.githubusercontent.com/8183000/219501573-24776766-44ed-410c-9305-583d4b273b79.png">
+
