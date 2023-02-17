@@ -25,6 +25,11 @@ const InitialSetup: React.FC = () => {
       return;
     }
 
+    if (slots.some((setup) => setup.quantity > 1000)) {
+      setErrorMessage('Maximum slots to be created at once is 1000');
+      return;
+    }
+
     const newSlots = slots.filter((slot) => !!slot.vehicleTypeId);
 
     setIsSubimitting(true);
@@ -89,9 +94,7 @@ const InitialSetup: React.FC = () => {
 
             <div className="park-button">
               <Button color="primary" variant="contained" onClick={submit} disabled={isSubimitting}>
-                <>
-                  Save {isSubimitting && <Loading />}
-                </>
+                <>Save {isSubimitting && <Loading />}</>
               </Button>
             </div>
           </StyledDiv>
