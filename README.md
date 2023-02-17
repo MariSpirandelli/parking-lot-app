@@ -2,7 +2,13 @@
 
 Parking system that allows a simple configuration of the number of spaces for each type of vehicle accepted, in addition to allowing vehicles to park, leave the parking lot and show an updated panel with the status of spaces for each type of vehicle supported space and notifies when the parking lot is full
 
-It was developed using [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+It was developed in React using [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Stack
+
+- React
+- Typescript
+- Next
 
 ## Getting Started
 
@@ -36,7 +42,7 @@ Add how many spots of each vehicle type (motorcycle, car and van) your parking l
 
 Now you'll be able to see your parking lot dashboard, park new vehicles and remove them from parking lot.
 
-### Busines Rules
+## Busines Rules
 
 1. Motorcycle can park in any available slot
 1. Car can park in both car or van slots
