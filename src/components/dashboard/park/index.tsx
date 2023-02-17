@@ -17,15 +17,15 @@ interface Props {
 
 const Park: React.FC<Props> = ({ parkingLotId, onChange }) => {
   const [plate, setPlate] = useState<string>();
-  const [vehicleTypeId, setVehicleTypeId] = useState<number>(1);
+  const [vehicleTypeId, setVehicleTypeId] = useState<number>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [isSubimitting, setIsSubimitting] = useState<boolean>(false);
 
   const [vehicleTypes, { loading }] = useVehicleType();
 
   const submit = async () => {
-    if (!plate?.trim().length || !vehicleTypeId) {
-      setErrorMessage('Vehicle Plate and type are mandatory fields!');
+    if (!plate?.trim().length) {
+      setErrorMessage('Vehicle Plate is mandatory!');
       return;
     }
     setIsSubimitting(true);
@@ -33,6 +33,7 @@ const Park: React.FC<Props> = ({ parkingLotId, onChange }) => {
       const newVehicle: IVehicle = await apiVehicle.save(plate.toUpperCase(), vehicleTypeId);
 
       if ((newVehicle as any).error?.message) {
+        setIsSubimitting(false);
         return setErrorMessage((newVehicle as any).error.message);
       }
 

@@ -1,12 +1,9 @@
 import api from './index';
 
-const save = (
-  plate: string,
-  vehicleTypeId: number
-): Promise<IVehicle> => {
+const save = (plate: string, vehicleTypeId?: number): Promise<IVehicle> => {
   const body = {
     plate,
-    vehicleTypeId
+    vehicleTypeId,
   };
 
   return api.post(`/api/vehicles/`, {
