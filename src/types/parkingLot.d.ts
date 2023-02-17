@@ -1,9 +1,9 @@
-export interface IParkingLotSetup {
+declare interface IParkingLotSetup {
   vehicleTypeId: number;
   quantity: number;
 }
 
-export interface IParkingLot extends IBaseModel {
+declare interface IParkingLot extends IBaseModel {
   name: string;
 
   slots?: ISlot[];

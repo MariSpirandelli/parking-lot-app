@@ -1,24 +1,19 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import useSlot from '../hooks/api/useSlots';
 
 type ParkingLot = {
   parkingLotId: number;
   slots: ISlot[] | undefined;
+  setHasSetup: (hasSetup: boolean) => void;
   hasSetup: () => boolean;
   loading: boolean;
 };
 
 const parkingLotId = 1; // TODO: get proper parkingLotId when authentication is done
 const ParkingLotContext = createContext<ParkingLot>({
-  parkingLotId: 1,
+  parkingLotId,
   slots: [],
+  setHasSetup: (hasSetup: boolean) => hasSetup,
   hasSetup: () => false,
   loading: true,
 });
@@ -32,23 +27,20 @@ function ParkingLotProvider(props: { children: ReactNode }) {
     if (!data) {
       return;
     }
-    setSetUpComplete(true);
+    setSetUpComplete(data.length > 0);
   }, [data, parkingLotData]);
 
   const parkingLot = useMemo<ParkingLot>(() => {
     return {
       parkingLotId: parkingLotData,
       slots: data,
+      setHasSetup: setSetUpComplete,
       hasSetup: () => setUpComplete || false,
       loading,
     };
   }, [parkingLotData, setUpComplete]);
 
-  return (
-    <ParkingLotContext.Provider value={parkingLot}>
-      {props.children}
-    </ParkingLotContext.Provider>
-  );
+  return <ParkingLotContext.Provider value={parkingLot}>{props.children}</ParkingLotContext.Provider>;
 }
 
 const useParkingLot = () => useContext(ParkingLotContext);
