@@ -90,8 +90,7 @@ const InitialSetup: React.FC = () => {
             <div className="park-button">
               <Button color="primary" variant="contained" onClick={submit} disabled={isSubimitting}>
                 <>
-                  {!isSubimitting && <>Save</>}
-                  {isSubimitting && <Loading />}
+                  Save {isSubimitting && <Loading />}
                 </>
               </Button>
             </div>
