@@ -42,8 +42,4 @@ body {
   flex-flow: column;
 }
 
-.content-bg{
-    height: calc(100vh - 88px);
-}
-
 `;
